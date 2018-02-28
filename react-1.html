@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/react/16.3.0-alpha.0/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.3.0-alpha.0/umd/react-dom.development.js"></script>
+    <script src='./create-react-class.js'></script>
+    <script src='./prop-types.js'></script>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+   
+    var component = createReactClass({
+        getDefaultProps: function () {
+               return  {
+                   text: 'wonderful'
+               }
+        },
+        getInitialState: function () {
+           return {
+                 text: this.props.text
+           }
+        },
+        textChange: function (e) {
+            this.setState({
+                text: e.target.value
+            })
+        },
+        render: function () {
+            console.log('e')
+           var Count = null
+           if(this.state.text.length > 0) {
+               Count = React.createElement('h3', 
+                                            null, 
+                                            React.createElement(Counter, {count: this.state.text.length}))
+           }
+            return React.createElement('div', 
+                                        null, 
+                                        React.createElement('textarea',{
+                                            //  defaultValue: this.state.text,
+                                            value: this.state.text,
+                                            onChange: this.textChange
+                                        }),
+                                        Count)
+        }
+    })
+
+    var Counter = createReactClass({
+        componentWillMount() {
+                console.log('willMount')
+        },
+        componentDidMount() {
+            console.log('didMount')
+        },
+        componentWillUpdate(nextProp, nextState) {
+               console.log('willUpdate', nextProp, nextState)
+        },
+        componentDidUpdate(oldProp, oldState) {
+             console.log('didUpdate', oldProp, oldState)
+        },
+        componentWillReceiveProps(nextProps) {
+             console.log('Receive', nextProps)
+        },
+        shouldComponentUpdate(nextProp) {
+           return  ! (nextProp.count == this.props.count)
+        },
+        componentWillUnmount() {
+             console.log('unMount', arguments)
+        },
+        render: function() {
+            console.log('render')
+            return React.createElement('span', null, this.props.count)
+        }
+    })
+
+    ReactDOM.render(
+        React.createElement(component,{text:' 123'}),
+        document.getElementById('app')
+    )
+
+
+    
+
+    /*
+        createReactClass({
+            render,
+            getDefaultProps, () => {}
+            getInitialState, () => {}
+            componentWillMount,
+            componentDidMount,
+            componentWillUpdate, (nextProps, nextState)
+            componentDidUpdate,  (oldProps, oldState)
+            componentWillUnMount,
+            shouldComponentUpdate,
+            componentWillReceiveProps
+        })
+    */
+    </script>
+</body>
+</html>
